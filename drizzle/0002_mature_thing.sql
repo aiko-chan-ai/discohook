@@ -1,1 +1,0 @@
-ALTER TABLE "DiscordGuild" ADD COLUMN "botJoinedAt" timestamp;

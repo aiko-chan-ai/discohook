@@ -1,29 +1,66 @@
 {
-  "name": "discohook",
-  "version": "1.0.0",
-  "description": "Monorepo for Discohook",
-  "type": "module",
+  "name": "discohook-editor-custom",
+  "version": "3.0.0-beta.1",
   "private": true,
+  "sideEffects": false,
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
   "scripts": {
-    "dev:bot": "cd packages/bot && npm run dev",
-    "bot-ws": "cd packages/bot-ws && npm run bot",
-    "dev:site": "cd packages/site && npm run dev",
-    "dev:backups": "cd packages/magic-backup-importer && npm run dev",
-    "lint": "biome lint .",
-    "format": "biome format . --write",
-    "fix": "biome check --write .",
-    "db-generate": "drizzle-kit generate",
-    "db-migrate": "drizzle-kit migrate",
-    "db-push": "drizzle-kit push",
-    "db-studio": "drizzle-kit studio",
-    "refresh-store": "cd packages/bot && yarn && cd ../site && yarn && cd ../bot-rw && yarn"
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc"
   },
-  "workspaces": [
-    "packages/*"
-  ],
+  "dependencies": {
+    "@base-ui-components/react": "^1.0.0-beta.3",
+    "@emoji-mart/data": "^1.1.2",
+    "@twemoji/api": "^17.0.2",
+    "@ungap/structured-clone": "^1.2.1",
+    "chrono-node": "^2.7.5",
+    "discord-api-types": "^0.38.32",
+    "discord-snowflake": "^2.0.0",
+    "emoji-mart": "^5.5.2",
+    "front-matter": "^4.0.2",
+    "he": "^1.2.0",
+    "highlight.js": "^11.9.0",
+    "i18next": "^25.0.2",
+    "i18next-browser-languagedetector": "^8.0.5",
+    "i18next-http-backend": "^3.0.2",
+    "insert-text-at-cursor": "^0.3.0",
+    "mime": "^4.0.6",
+    "moment": "^2.30.1",
+    "react": "^18.2.0",
+    "react-color": "^2.19.3",
+    "react-dom": "^18.2.0",
+    "react-emoji-search": "^2.2.26",
+    "react-i18next": "^15.5.1",
+    "react-lazy-load-image-component": "^1.6.2",
+    "react-select": "^5.8.0",
+    "tailwind-merge": "^2.2.0",
+    "ua-parser-js": "^1.0.38",
+    "zod": "^4.1.5"
+  },
   "devDependencies": {
-    "@biomejs/biome": "2.0.6",
-    "drizzle-kit": "^0.31.8"
+    "@types/he": "^1",
+    "@types/insert-text-at-cursor": "^0",
+    "@types/node": "^25.3.5",
+    "@types/react": "^18.3.28",
+    "@types/react-color": "^3.0.10",
+    "@types/react-dom": "^18.3.7",
+    "@types/react-lazy-load-image-component": "^1.6.4",
+    "@types/ua-parser-js": "^0.7.39",
+    "@types/ungap__structured-clone": "^1.2.0",
+    "@vitejs/plugin-react": "^4.3.0",
+    "autoprefixer": "^10.4.20",
+    "browserslist": "^4.25.4",
+    "caniuse-lite": "^1.0.30001706",
+    "cron-parser": "^5.5.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.3.6",
+    "typescript": "^5.1.6",
+    "vite": "^6.0.0"
   },
-  "packageManager": "yarn@4.1.0"
+  "engines": {
+    "node": ">=18.0.0"
+  }
 }

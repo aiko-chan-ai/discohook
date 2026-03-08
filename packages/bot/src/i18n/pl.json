@@ -1,9 +1,0 @@
-{
-    "commands": {
-        "_options": {
-            "webhook": {
-                "name": "webhook"
-            }
-        }
-    }
-}

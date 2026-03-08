@@ -1,14 +1,23 @@
 {
-  "references": [
-    { "path": "./packages/site" },
-    { "path": "./packages/bot" },
-    { "path": "./packages/bot-ws" },
-    { "path": "./packages/store" }
-  ],
-  "files": [],
-  "include": [],
-  "exclude": ["**/node_modules"],
   "compilerOptions": {
-    "types": ["@cloudflare/workers-types/2023-03-01"]
-  }
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "target": "ES2022",
+    "strict": true,
+    "allowJs": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": ["./app/*"]
+    },
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
 }

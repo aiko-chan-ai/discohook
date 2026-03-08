@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Discohook</title>
+    <meta name="description" content="Free, intuitive interface for creating webhook messages in your Discord server." />
+    <meta property="og:image" content="/logos/discohook_144w.png" />
+    <meta name="theme-color" content="#58b9ff" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="stylesheet" href="/app/styles/coolicons.css" />
+    <script>
+      const settings = JSON.parse(localStorage.getItem("discohook_settings") ?? "{}");
+      if (
+        settings.theme === "light" ||
+        (!settings.theme && window.matchMedia("(prefers-color-scheme: light)").matches)
+      ) {
+        document.documentElement.classList.remove("dark");
+      } else {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
+  </head>
+  <body class="bg-white text-black dark:bg-primary-600 dark:text-primary-230 isolate">
+    <div id="root"></div>
+    <script type="module" src="/app/main.tsx"></script>
+  </body>
+</html>

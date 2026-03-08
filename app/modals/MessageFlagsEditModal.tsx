@@ -1,0 +1,101 @@
+import { MessageFlags } from "discord-api-types/v10";
+
+import { useTranslation } from "react-i18next";
+import { Button } from "~/components/Button";
+import { BigCheckbox } from "~/components/Checkbox";
+import type { QueryData } from "~/types/QueryData";
+import { Modal, ModalFooter, type ModalProps, PlainModalHeader } from "./Modal";
+
+export const MessageFlagsEditModal = (
+  props: ModalProps & {
+    data: QueryData;
+    setData: React.Dispatch<QueryData>;
+    messageIndex?: number;
+  },
+) => {
+  const { t } = useTranslation();
+  const { data, setData, messageIndex } = props;
+  const message =
+    messageIndex !== undefined ? data.messages[messageIndex] : undefined;
+
+  return (
+    <Modal {...props}>
+      <PlainModalHeader>{t("flags")}</PlainModalHeader>
+      <div className="space-y-2">
+        <p>{t("messageFlagsNote")}</p>
+        {message
+          ? (() => {
+              const flags = message.data.flags ?? 0;
+              const hasFlag = (f: number) => (flags & f) !== 0;
+              const setFlag = (f: number, checked: boolean) => {
+                if (checked) message.data.flags = flags | f;
+                else message.data.flags = flags & ~f;
+              };
+              return (
+                <>
+                  <BigCheckbox
+                    label={t(
+                      `messageFlag.${MessageFlags.SuppressNotifications}`,
+                    )}
+                    description={t("messageFlagsNoteSuppressNotifications")}
+                        checked={hasFlag(MessageFlags.SuppressNotifications)}
+                    onChange={(e) => {
+                      setFlag(
+                        MessageFlags.SuppressNotifications,
+                        e.currentTarget.checked,
+                      );
+                      setData({ ...data });
+                    }}
+                  />
+                  {
+                    // If components V2, only show this checkbox if it is
+                    // already enabled, so that it can be disabled
+                    !hasFlag(MessageFlags.IsComponentsV2) ||
+                    hasFlag(MessageFlags.SuppressEmbeds) ? (
+                      <BigCheckbox
+                        label={t(`messageFlag.${MessageFlags.SuppressEmbeds}`)}
+                        description={t("messageFlagsNoteSuppressEmbeds")}
+                        checked={hasFlag(MessageFlags.SuppressEmbeds)}
+                        onChange={(e) => {
+                          setFlag(
+                            MessageFlags.SuppressEmbeds,
+                            e.currentTarget.checked,
+                          );
+                          setData({ ...data });
+                        }}
+                      />
+                    ) : null
+                  }
+                  {
+                    !hasFlag(MessageFlags.IsComponentsV2) ||
+                    hasFlag(MessageFlags.IsVoiceMessage) ? (
+                      <BigCheckbox
+                        label={t(`messageFlag.${MessageFlags.IsVoiceMessage}`)}
+                        description={t("messageFlagsNoteIsVoiceMessage")}
+                        checked={hasFlag(MessageFlags.IsVoiceMessage)}
+                        onChange={(e) => {
+                          setFlag(
+                            MessageFlags.IsVoiceMessage,
+                            e.currentTarget.checked,
+                          );
+                          setData({ ...data });
+                        }}
+                      />
+                    ) : null
+                  }
+                </>
+              );
+            })()
+          : null}
+        <ModalFooter className="flex gap-2 flex-wrap">
+          <Button
+            className="ltr:ml-auto rtl:mr-auto"
+            onClick={() => props.setOpen(false)}
+          >
+            {t("ok")}
+          </Button>
+        </ModalFooter>
+      </div>
+    </Modal>
+  );
+};
