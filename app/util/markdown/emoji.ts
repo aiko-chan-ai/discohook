@@ -1,4 +1,4 @@
-import rawEmojiData from "../../emoji.json";
+import rawEmojiData from "../../../public/emoji.json";
 
 type EmojiDataEntry = [
   string | [string, string] | [string, string, string],
