@@ -784,7 +784,7 @@ const StandardMessageEditor: React.FC<MessageEditorChildProps> = ({
             </ButtonSelect>
           </div>
           {onSend && (
-            <div className="ms-auto">
+            <div className="flex-1 flex justify-end ms-auto">
               <Button
                 discordstyle={ButtonStyle.Success}
                 onClick={onSend}
