@@ -33,6 +33,7 @@ export interface BotProfile {
 
 export interface ElectronAPI {
   reactReady(): void;
+  closeWindow(): void;
 }
 
 declare global {

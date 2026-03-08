@@ -108,6 +108,10 @@ export function useElectronBridge(callbacks: {
       // Transfer the ArrayBuffers for zero-copy performance
       const transferables = filePayloads.map((f) => f.buffer);
       portRef.current.postMessage(outgoing, transferables);
+      // Close the port after sending, since we only need one message back to the host
+      portRef.current.close();
+      // Close window
+      window.electronAPI?.closeWindow();
     } else {
       // Fallback: console log when not in Electron
       console.group(
