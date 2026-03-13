@@ -1,7 +1,4 @@
-import {
-  type APIMessageComponentEmoji,
-  ButtonStyle,
-} from "discord-api-types/v10";
+import { type APIMessageComponentEmoji, ButtonStyle } from "discord-api-types/v10";
 import { twJoin, twMerge } from "tailwind-merge";
 import { cdn } from "~/util/discord";
 import { CoolIcon } from "./icons/CoolIcon";
@@ -11,108 +8,84 @@ import { LoadingDots } from "./LoadingDots";
 import React from "react";
 
 export const Button = React.forwardRef<
-  HTMLButtonElement,
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > & {
-    discordstyle?: ButtonStyle;
-    emoji?: APIMessageComponentEmoji;
-    loading?: boolean;
-  }
+    HTMLButtonElement,
+    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
+        discordstyle?: ButtonStyle;
+        emoji?: APIMessageComponentEmoji;
+        loading?: boolean;
+    }
 >((props, ref) => {
-  return (
-    <button
-      ref={ref}
-      type="button"
-      {...props}
-      className={twMerge(
-        "relative border border-[#ffffff14] rounded-lg font-medium text-base h-8 py-0 px-4 min-w-[60px] text-white transition shrink-0",
-        props.loading ? "" : "disabled:opacity-50 disabled:cursor-not-allowed",
-        !props.discordstyle || props.discordstyle === ButtonStyle.Primary
-          ? "bg-blurple-500 hover:bg-blurple-600 active:bg-blurple-700"
-          : [ButtonStyle.Link, ButtonStyle.Secondary].includes(
-                props.discordstyle,
-              )
-            ? // Secondary button colors are different for the Dark and Onyx themes, currently Light and Ash are implemented
-              "bg-[#97979f29] hover:bg-[#97979f47] dark:bg-[#97979f1f] hover:dark:bg-[#97979f33] active:bg-[#83838b14] active:dark:bg-[#50505a4d] text-[#0c0c0e] dark:text-[#ebebed] border-[#97979f33] dark:border-[#97979f0a]"
-            : props.discordstyle === ButtonStyle.Danger
-              ? "bg-[#d22d39] hover:bg-[#b42831] active:bg-[#a4232c]"
-              : props.discordstyle === ButtonStyle.Success
-                ? "bg-[#00863a] hover:bg-[#047e37] active:bg-[#057332]"
-                : "",
-        props.className ?? "",
-      )}
-    >
-      <div
-        className={twJoin(
-          "inline-flex",
-          props.loading ? "invisible" : undefined,
-        )}
-      >
-        {props.emoji &&
-          (props.emoji.id ? (
-            <div
-              className={`aspect-square h-[22px] my-auto ${
-                props.children ? "ltr:mr-1 rtl:ml-1" : "mx-auto"
-              }`}
-            >
-              <img
-                src={cdn.emoji(
-                  props.emoji.id,
-                  props.emoji.animated ? "gif" : "webp",
+    return (
+        <button
+            ref={ref}
+            type="button"
+            {...props}
+            className={twMerge(
+                "relative border border-[#ffffff14] rounded-lg font-medium text-base h-8 py-0 px-4 min-w-[60px] text-white transition shrink-0",
+                props.loading ? "" : "disabled:opacity-50 disabled:cursor-not-allowed",
+                !props.discordstyle || props.discordstyle === ButtonStyle.Primary
+                    ? "bg-blurple-500 hover:bg-blurple-600 active:bg-blurple-700"
+                    : [ButtonStyle.Link, ButtonStyle.Secondary].includes(props.discordstyle)
+                      ? // Secondary button colors are different for the Dark and Onyx themes, currently Light and Ash are implemented
+                        "bg-[#97979f29] hover:bg-[#97979f47] dark:bg-[#97979f1f] hover:dark:bg-[#97979f33] active:bg-[#83838b14] active:dark:bg-[#50505a4d] text-[#0c0c0e] dark:text-[#ebebed] border-[#97979f33] dark:border-[#97979f0a]"
+                      : props.discordstyle === ButtonStyle.Danger
+                        ? "bg-[#d22d39] hover:bg-[#b42831] active:bg-[#a4232c]"
+                        : props.discordstyle === ButtonStyle.Success
+                          ? "bg-[#00863a] hover:bg-[#047e37] active:bg-[#057332]"
+                          : "",
+                props.className ?? "",
+            )}
+        >
+            <div className={twJoin("inline-flex", props.loading ? "invisible" : undefined)}>
+                {props.emoji &&
+                    (props.emoji.id ? (
+                        <div
+                            className={`aspect-square h-[22px] my-auto ${
+                                props.children ? "ltr:mr-1 rtl:ml-1" : "mx-auto"
+                            }`}
+                        >
+                            <img
+                                src={cdn.emoji(props.emoji.id, props.emoji.animated ? "gif" : "webp")}
+                                alt={props.emoji.name}
+                                className="max-h-full max-w-full"
+                            />
+                        </div>
+                    ) : (
+                        <div className="ltr:mr-1 rtl:ml-1 aspect-square my-auto h-7 flex">
+                            <div className="m-auto">
+                                <Twemoji
+                                    // biome-ignore lint/style/noNonNullAssertion: Must have name if not an ID
+                                    emoji={props.emoji.name!}
+                                    className="h-[22px] !align-bottom"
+                                />
+                            </div>
+                        </div>
+                    ))}
+                <div className={props.emoji ? "my-auto" : "m-auto"}>{props.children}</div>
+                {props.discordstyle === ButtonStyle.Link && (
+                    <CoolIcon icon="External_Link" className="ltr:ml-1.5 rtl:mr-1.5 my-auto" />
                 )}
-                alt={props.emoji.name}
-                className="max-h-full max-w-full"
-              />
             </div>
-          ) : (
-            <div className="ltr:mr-1 rtl:ml-1 aspect-square my-auto h-7 flex">
-              <div className="m-auto">
-                <Twemoji
-                  // biome-ignore lint/style/noNonNullAssertion: Must have name if not an ID
-                  emoji={props.emoji.name!}
-                  className="h-[22px] !align-bottom"
-                />
-              </div>
-            </div>
-          ))}
-        <div className={props.emoji ? "my-auto" : "m-auto"}>
-          {props.children}
-        </div>
-        {props.discordstyle === ButtonStyle.Link && (
-          <CoolIcon
-            icon="External_Link"
-            className="ltr:ml-1.5 rtl:mr-1.5 my-auto"
-          />
-        )}
-      </div>
-      {props.loading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <LoadingDots />
-        </div>
-      )}
-    </button>
-  );
+            {props.loading && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                    <LoadingDots />
+                </div>
+            )}
+        </button>
+    );
 });
 
 export const TextButton = React.forwardRef<
-  HTMLButtonElement,
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
+    HTMLButtonElement,
+    React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 >((props, ref) => {
-  const { className, ...newProps } = props;
-  return (
-    <button
-      ref={ref}
-      type="button"
-      {...newProps}
-      className={twMerge(
-        "font-medium hover:underline my-auto cursor-pointer ltr:mr-4 rtl:ml-4",
-        className,
-      )}
-    />
-  );
+    const { className, ...newProps } = props;
+    return (
+        <button
+            ref={ref}
+            type="button"
+            {...newProps}
+            className={twMerge("font-medium hover:underline my-auto cursor-pointer me-4", className)}
+        />
+    );
 });
