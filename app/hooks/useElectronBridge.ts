@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { BotProfile, EmojiGuildData } from "~/api/EditorAPI";
 import type { QueryData } from "~/types/QueryData";
+import { transformFileName } from "~/util/files";
 
 /**
  * Message types sent FROM Render A → Editor (incoming)
@@ -89,7 +90,7 @@ export function useElectronBridge(callbacks: {
     for (const file of msg.rawFiles) {
       const buffer = await file.arrayBuffer();
       filePayloads.push({
-        name: file.name,
+        name: transformFileName(file.name), // Ensure the filename is transformed the same way as in the editor for attachment:// URLs
         size: file.size,
         type: file.type,
         buffer,
